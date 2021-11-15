@@ -1,19 +1,19 @@
 async function search_recipe_name(name){
-    response=await fetch(`https://api.edamam.com/search?q=${name}&app_id=b5f49952&app_key=5c2d978fabfbb048d95adf40f11e6fea`);
+    let response=await fetch(`https://api.edamam.com/search?q=${name}&app_id=b5f49952&app_key=5c2d978fabfbb048d95adf40f11e6fea`);
     let data=await response.json();
     return data.hits;
   }
   
   async function search_recipe_name_health(name,health)//health is an array
   {
-    response=await fetch(`https://api.edamam.com/search?q=${name}&health=${health}&app_id=b5f49952&app_key=5c2d978fabfbb048d95adf40f11e6fea`);
+    let response=await fetch(`https://api.edamam.com/search?q=${name}&health=${health}&app_id=b5f49952&app_key=5c2d978fabfbb048d95adf40f11e6fea`);
     let data=await response.json();
     return data.hits;
   }
   
   
   async function search_recipe_id(id){
-    response=await fetch(`https://api.edamam.com/api/recipes/v2/${id}?app_id=b5f49952&app_key=5c2d978fabfbb048d95adf40f11e6fea&type=public`);
+    let response=await fetch(`https://api.edamam.com/api/recipes/v2/${id}?app_id=b5f49952&app_key=5c2d978fabfbb048d95adf40f11e6fea&type=public`);
     let data=await response.json();
     return data;
   }
