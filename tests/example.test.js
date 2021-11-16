@@ -6,8 +6,12 @@
 import { jest, expect, test } from '@jest/globals';
 jest.useFakeTimers();
 
-import { add } from '../source/example.js';
+import { add, imperial_to_metric } from '../source/example.js';
 
 test('testing the add function in order to test the testing framework : )', () => {
   expect(add(1, 2)).toBe(3);
+});
+
+test('testing imeprial to metrix', () => {
+  expect(imperial_to_metric(1)).toBe(28.3);
 });
