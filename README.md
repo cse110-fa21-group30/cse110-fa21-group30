@@ -1,4 +1,5 @@
 # [cse110-fa21-group30](admin/team.md)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/cdc41147956b4ee5bcabdf4cc186d2bf)](https://app.codacy.com/gh/cse110-fa21-group30/cse110-fa21-group30?utm_source=github.com&utm_medium=referral&utm_content=cse110-fa21-group30/cse110-fa21-group30&utm_campaign=Badge_Grade_Settings)
 [![CI](https://github.com/cse110-fa21-group30/cse110-fa21-group30/actions/workflows/main.yml/badge.svg)](https://github.com/cse110-fa21-group30/cse110-fa21-group30/actions)
 [![CD](https://github.com/cse110-fa21-group30/cse110-fa21-group30/actions/workflows/firebase-hosting-merge.yml/badge.svg)](https://cse110-group30-affd4.web.app/)
 
