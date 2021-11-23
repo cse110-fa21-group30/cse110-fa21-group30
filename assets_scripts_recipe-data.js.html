@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>example.js - Documentation</title>
+    <title>assets/scripts/recipe-data.js - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,7 +29,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">example.js</h1>
+    <h1 class="page-title">assets/scripts/recipe-data.js</h1>
     
 
     
@@ -39,11 +39,46 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>/**
- * Companion file as to example.test.js
- */
+            <pre class="prettyprint source linenums"><code>/** @module recipe-data */
 
-export const add = (a, b) => a + b;
+// format of the recipe data object
+/** @global */
+export const recipe_data = {
+  'hash': 'a unique identifier, also the key in localstore',
+  'name': 'name of recipe',
+  'thumbnail': 'image url',
+  'author': 'name of creator',
+  'dishTypes': [],  // array of string. breakfast/lunch/etc.
+  'ingredients': [],  // array of Spoonacular ingredient objects
+  'intolerances': [],  // array of intolerances
+  'steps': [],  // array of Spoonacular step objects
+  'cuisines': [],  // 'array of string. American/Idian/etc.'
+  'pricePerServing': 0,
+  'readyInMinutes': 0,
+  'servings': 0,
+  'vegan': true,
+  'vegetarian': true,
+  'difficulty': 0  // currently configured as ingredients.length*steps.length/readyInMinutes
+};
+
+// fields we want to keep from the raw json response of Spoonacular and what they map to. Ex. 'id' was 'hash'
+/** @global */
+export const keep_fields = {
+  'id': 'hash',
+  'title': 'name',
+  'image': 'thumbnail',
+  'sourceName': 'author',
+  'dishTypes': 'dishTypes',
+  'extendedIngredients': 'ingredients',
+  'diets': 'intolerances',
+  'analyzedInstructions': 'steps',
+  'cuisines': 'cuisines',
+  'pricePerServing': 'pricePerServing',
+  'readyInMinutes': 'readyInMinutes',
+  'servings': 'servings',
+  'vegan': 'vegan',
+  'vegetarian': 'vegetarian'
+};
 </code></pre>
         </article>
     </section>
