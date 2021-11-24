@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>assets/scripts/api.js - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading">Modules</li><li class="nav-heading"><span class="nav-item-type type-module">M</span><span class="nav-item-name"><a href="module-api.html">api</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-api.html#.search_recipe">search_recipe</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-api.html#.search_recipe_raw">search_recipe_raw</a></span></li><li class="nav-heading"><span class="nav-item-type type-module">M</span><span class="nav-item-name"><a href="module-recipe-data.html">recipe-data</a></span></li><li class="nav-heading"><a href="global.html">Globals</a></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#add">add</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#keep_fields">keep_fields</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#recipe_data">recipe_data</a></span></li>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">assets/scripts/api.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/** @module api */
+
+import { recipe_data, keep_fields } from './recipe-data.js';
+
+/**
+ * search a recipe by its name and return a promise of list of raw json
+ * @param {string} name - name of the recipe
+ * @param {Array&lt;string>} intolerances - a list of intolerances. see below for details
+ * @returns {Promise} - a list of unfiltered recipe, empty if non found
+ */
+export async function search_recipe_raw(name, intolerances) {
+  const intolerances_str = Array.isArray(intolerances) ? `&amp;intolerances=${intolerances.join(',')}` : '';
+  const url = `https://api.spoonacular.com/recipes/complexSearch?query=${name}${intolerances_str}&amp;apiKey=486eca841c6a49b896486723439f9977&amp;addRecipeInformation=true&amp;fillIngredients=true`;
+  const response = await fetch(url);
+  const data = await response.json();
+  if (data.results) return data.results;
+  else return [];  // an empty list
+}
+
+/**
+ * search a recipe by its name and keep only the parts we need according to the global variable keep_fields
+ * we then remap the field names by the rule fields_remap
+ * if no recipe is found, it should return a promise of an empty list
+ * @param {string} name - name of the recipe 
+ * @param {Array&lt;string>} intolerances - a list of intolerances. for a list of supported keywords, see 
+ *  https://spoonacular.com/food-api/docs#:~:text=of%20supported%20diets.-,intolerances,-string
+ *  Note that this functionality is pretty bad since if a recipe can be nut free without listing nuts as intolerance
+ * @returns {Promise} - a list of filtered recipe
+ */
+export async function search_recipe(name, intolerances) {
+  const raw_recipes = await search_recipe_raw(name, intolerances);
+  // for each recipe, keep only ones in keep_fields and rename them accordingly
+  const filtered_recipes = raw_recipes.map(raw_recipe => {
+    const recipe = Object.create(recipe_data);  // prototype inherit recipe_data
+    Object.keys(keep_fields).forEach(key => recipe[keep_fields[key]] = raw_recipe[key]);
+    recipe.steps = recipe.steps[0].steps; // special modification 1: spoonacular's step array is cursed
+    recipe.difficulty = recipe.ingredients.length * recipe.steps.length / recipe.readyInMinutes;  // calculate difficulty
+    recipe.hash = recipe.hash.toString();  // turn hash from int to string
+    return recipe;
+  });
+  return filtered_recipes;
+}
+
+// Parameter:
+// recipe_name: the recipe name 
+// it will automaticlt get and parse the recipe in local storage if it can't find it it will just print a sentence to console,.
+function get_info_localstore(recipe_name){
+  if(localStorage.getItem(recipe_name)) {
+    return JSON.parse(localStorage.getItem(recipe_name));
+  } else {
+    console.log('Can not find recipe info in local,can not get');
+  }
+}
+
+// Parameter:
+// recipe_name: the recipe name 
+// recipe_info: the recipe object
+// it will automaticlt change the info to string and store it in the local storage, 
+// if locale storage already have it it will just print a sentence to console.
+function set_localstore(recipe_name,recipe_info){
+  if(!localStorage.getItem(recipe_name)) {
+    localStorage.setItem(recipe_name,JSON.stringify(recipe_info));
+  } else {
+    console.log('Already Saved this recipe before,can not save it again');
+  }
+}
+
+// Parameter:
+// recipe_name: the recipe name 
+// it will automaticlt remove the recipe in local storage if it can't find it it will just print a sentence to console,.
+function remove_localstore(recipe_name){
+  if(localStorage.getItem(recipe_name)) {
+    localStorage.removeItem(recipe_name);
+  } else {
+    console.log('Do not have recipe info in local, can not remove');
+  }
+}
+  
+// Parameter:
+// id: id of the recipe
+// add recipe to favorite list
+function add_favorite(id){
+  let fav=get_info_localstore('favorite');
+  if(fav==undefined){
+    let temp=new Array(0);
+    temp.push(id);
+    set_localstore('favorite',temp);
+  }
+  else{
+    if(fav.indexOf(id)==-1){
+      fav.push(id);
+      remove_localstore('favorite');
+      set_localstore('favorite',fav);
+    }
+    else{
+      console.log('Add: Recipe already in the favorite list');
+    }
+  }
+}
+
+// Parameter:
+// id: id of the recipe
+// remove recipe to favorite list
+function remove_favorite(id){
+  let fav=get_info_localstore('favorite');
+  if(fav==undefined){
+    console.log('Favorite list is empty');
+  }
+  else{
+    let index=fav.indexOf(id);
+    if(index==-1)
+    {
+      console.log('Remove: Recipe not in the favorite list');
+    }
+    else{
+      fav.splice(index,1);
+      remove_localstore('favorite');
+      set_localstore('favorite',fav);
+    }
+  }
+}
+
+// Parameter:
+// id: id of the recipe
+// add recipe to custom added list
+function add_custom(id){
+  let added=get_info_localstore('custom');
+  if(added==undefined){
+    let temp=new Array(0);
+    temp.push(id);
+    set_localstore('custom',temp);
+  }
+  else{
+    if(added.indexOf(id)==-1){
+      added.push(id);
+      remove_localstore('custom');
+      set_localstore('custom',added);
+    }
+    else{
+      console.log('Add: Recipe already in the custom list');
+    }
+  }
+}
+
+// Parameter:
+// id: id of the recipe
+// remove recipe to custom added list
+function remove_custom(id){
+  let added=get_info_localstore('custom');
+  if(added==undefined){
+    console.log('Custom list is empty');
+  }
+  else{
+    let index=added.indexOf(id);
+    if(index==-1)
+    {
+      console.log('Remove: Recipe not in the cuntom list');
+    }
+    else{
+      added.splice(index,1);
+      remove_localstore('custom');
+      set_localstore('custom',added);
+    }
+  }
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.4</a> on Wed Nov 24 2021 21:53:55 GMT+0000 (Coordinated Universal Time) using the Minami theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>
