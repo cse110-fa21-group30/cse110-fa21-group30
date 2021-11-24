@@ -41,11 +41,12 @@
 
  
 .nav-bar {
-    
+    position: fixed;
+    bottom: 0px;
     background-color: #F4BA26;
     height: 70px;
-    
-    /* margin: auto; */
+    left: 0;
+    right: 0;
     margin-top: 10px;
 }
 
