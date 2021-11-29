@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Global - Documentation</title>
+    <title>assets/scripts/recipe-add.js - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,281 +29,164 @@
 
 <div id="main">
     
-    <h1 class="page-title">Global</h1>
-    
-
-    
-
-
-
-
-<section>
-
-<header>
-    
-        <h2>
-        
-        </h2>
-        
-    
-</header>
-
-<article>
-    <div class="container-overview">
-    
-        
-
-        
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-        
-    
-    </div>
-
-    
-
-    
-
-    
-
-     
-
-    
-
-    
-        <h3 class="subsection-title">Members</h3>
-
-        
-            
-<div class="section-members">
-<h4 class="name" id="add"><span class="type-signature">(constant) </span>add<span class="type-signature"></span></h4>
-
-
-
-
-<div class="description">
-    Companion file as to example.test.js
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="example.js.html">example.js</a>, <a href="example.js.html#line5">line 5</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-</div>
-
-        
-            
-<div class="section-members">
-<h4 class="name" id="keep_fields"><span class="type-signature">(constant) </span>keep_fields<span class="type-signature"></span></h4>
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="assets_scripts_recipe-data.js.html">assets/scripts/recipe-data.js</a>, <a href="assets_scripts_recipe-data.js.html#line25">line 25</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-</div>
-
-        
-            
-<div class="section-members">
-<h4 class="name" id="recipe_data"><span class="type-signature">(constant) </span>recipe_data<span class="type-signature"></span></h4>
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="assets_scripts_recipe-data.js.html">assets/scripts/recipe-data.js</a>, <a href="assets_scripts_recipe-data.js.html#line5">line 5</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-</div>
-
-        
-    
-
-    
-
-    
-
-    
-</article>
-
-</section>
+    <h1 class="page-title">assets/scripts/recipe-add.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>// recipe-add.js
+/** @module recipe-add */
+
+window.addEventListener('DOMContentLoaded', init);
+
+var ingredientIndex = 1;
+var instructionIndex = 1;
+
+/**
+ * Initialize and call other function
+ */
+async function init() {
+  addIngredient();
+  addInstruction();
+
+  goDashboard();
+  goSearch();
+  goAdd();
+  goSettings();
+
+}
+
+/**
+ * Click to go back to dashboard
+ */
+function goDashboard() {
+  const btn = document.getElementsByClassName('nav-dashboard');
+
+  btn[0].addEventListener('click', () => {
+    window.location.replace('index.html');
+  });
+}
+
+/**
+ * Click to go to search
+ */
+function goSearch() {
+  const btn = document.getElementsByClassName('nav-search');
+
+  btn[0].addEventListener('click', () => {
+    window.location.replace('recipe-searchPage.html');
+  });
+}
+
+/**
+ * Click to add the recipe card
+ */
+function goAdd() {
+  const btn = document.getElementsByClassName('nav-add');
+
+  btn[0].addEventListener('click', () => {
+    window.location.replace('recipe-add.html');
+  });
+}
+
+/**
+ * Click to go to settings
+ */
+function goSettings() {
+  const btn = document.getElementsByClassName('nav-settings');
+
+  btn[0].addEventListener('click', () => {
+    window.location.replace('settings.html');
+  });
+}
+
+/**
+ * Click to add a new line for filling ingredients
+ */
+function addIngredient() {
+  let btn = document.getElementById('ingredientButton');
+  let box = document.getElementById('ingredientOrderedList');
+  console.log('hi');
+  
+  btn.addEventListener('click', () => {
+    console.log('inside');
+    ingredientIndex += 1;
+    let node = document.createElement('LI');  
+    node.id = `ingredient-${ingredientIndex}`;
+    let nodeInput = document.createElement('input');
+    let br = document.createElement('br');
+    nodeInput.type='text';
+    nodeInput.appendChild(br);
+    node.appendChild(nodeInput);
+    let img = document.createElement('img');
+    img.id = `delete-ingredient-${ingredientIndex}`;
+    img.className = 'delete';
+    img.src = 'assets/images/delete-button.png';
+    img.setAttribute('onClick', 'deleteIngredient(this.id)');
+    node.appendChild(img);
+    box.appendChild(node);
+  });
+}
+
+/**
+ * Click to add a new line for filling instructions
+ */
+function addInstruction() {
+  let btn = document.getElementById('instructionButton');
+  let box = document.getElementById('instructionOrderedList');
+  console.log('hiiii');
+  
+  btn.addEventListener('click', () => {
+    console.log('inside');
+    instructionIndex += 1;
+    let node = document.createElement('LI');  
+    node.id = `instruction-${instructionIndex}`;
+    let nodeInput = document.createElement('input');
+    let br = document.createElement('br');
+    nodeInput.type='text';
+    nodeInput.appendChild(br);
+    node.appendChild(nodeInput);
+    let img = document.createElement('img');
+    img.id = `delete-instruction-${instructionIndex}`;
+    img.className = 'delete';
+    img.src = 'assets/images/delete-button.png';
+    img.setAttribute('onClick', 'deleteInstruction(this.id)');
+    node.appendChild(img);
+    box.appendChild(node);
+  });
+}
+
+/**
+ * Click to delete a line for filling ingredients
+ * @param {String} deleteImageId - ID of the delete button image at the line
+ */
+function deleteIngredient(deleteImageId) {
+  let id = deleteImageId.substring(18);
+  console.log(id);
+  let nodeId = 'ingredient-' + id;
+  let node = document.getElementById(nodeId);
+  node.remove();
+}
+
+/**
+ * Click to delete a line for filling instructions
+ * @param {String} deleteImageId - ID of the delete button image at the line
+ */
+function deleteInstruction(deleteImageId) {
+  let id = deleteImageId.substring(19);
+  console.log(id);
+  let nodeId = 'instruction-' + id;
+  let node = document.getElementById(nodeId);
+  node.remove();
+}
+</code></pre>
+        </article>
+    </section>
 
 
 
