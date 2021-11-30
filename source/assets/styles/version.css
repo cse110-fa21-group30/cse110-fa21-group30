@@ -1,4 +1,8 @@
 
+
+
+
+
 * {
     font-family: 'Inter', sans-serif;
     padding: 0;
@@ -6,7 +10,7 @@
     margin: 0;
 }
 
-nav {
+.header-bar {
     background-color: #F4BA26;
     padding: 20px;
     text-align: center;
@@ -22,123 +26,21 @@ nav {
     width: 50px;
 }
 
-.diet-restrictionBox{
-    position: relative;right:5.5px;
-      display: block;
-      margin-left: auto;
-      margin-right: auto;
-      width:350px;
-      height:110px;
-      border:2px solid #FFC83A;
-      background-color: white;
-      margin-top: 150px;
-      margin-bottom: 150px;
-  }
-
-.container {
-    display: block;
-    position: relative;
-    padding-left: 20px;
-    margin-bottom: 0;
-    cursor: pointer;
-    font-size: 12px;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    font-family: Inter;
-    font-style: normal;
-    font-weight: normal;
-    margin-top: 4px;
-  }
-  
-  /* Hide the browser's default checkbox */
-  .container input {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
-    height: 0;
-    width: 0;
-  }
-  
-  /* Create a custom checkbox */
-  .checkmark {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 15px;
-    width: 15px;
-    background-color: #FFC83A;
-  }
-  
-  .checkmark:after {
-    content: "✓";
-    position: absolute;
-    display: none;
-  }
-  
-  .container input:checked ~ .checkmark:after {
-    display: block;
-  }
-
-/* When the checkbox is checked, add a blue background */
-.container input:checked ~ .checkmark {
-background-color: #FFC83A;
-}
-  
-.container {
-display: grid;
-grid-template-columns: 100px 120px 120px;  
-}
-
-.word {
-    grid-row: 1; 
-    position: relative;
-    font-family: Inter;
-    font-style: italic; 
-    font-size: 12px;
-}
-.left {
-    grid-row: 1;    
-}
-.right {
-    grid-row: 1;     
-}
-
-
-
-.save {
-    margin-top: 100px;
-    font-size: 30px;
-    color: white;
-    background-color: #ffc83a;
-    width: 340px;
-    border: 1px solid #ffc83a;
-    border-radius: 8px;
-    padding: 4px;
-}
-
-.save > p {
-    display: inline;
-}
-
-
-
-.bottom-buttons {
-    position: relative;
+.version-text{
+    margin-top: 250px;
     text-align: center;
-    margin-bottom: 100px;
 }
 
-.bottom-buttons > p {
-    padding-top: 20px;
-    color: #EAB52F;
-    font-family: 'Avenir', sans-serif;
-    font-size: 12px;
-    font-weight: 400;
+#blk-logo{
+    width: 200px;
+    margin: auto;
 }
 
-
+#v-text{
+    margin: auto;
+    font-size: 16px;
+}
+  
 .nav-bar {
     background-color: #F4BA26;
     height: 70px;

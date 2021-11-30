@@ -1,31 +1,15 @@
-// preference-setting.js
+// version.js
 
 window.addEventListener('DOMContentLoaded', init);
 
 async function init() {
   goBack();
-  saveOrSaved();
   goDashboard();
   goSearch();
   goAdd();
   goSettings();
 }
 
-function saveOrSaved() {
-  const btn = document.querySelector('.save');
-  const heart = document.getElementById('heart');
-  const text = document.getElementById('save-or-not');
-
-  btn.addEventListener('click', () => {
-    if (text.textContent === 'SAVE') {
-      text.textContent = 'SAVED';
-      heart.src = 'assets/images/white-border-heart2.svg';
-    } else {
-      text.textContent = 'SAVE';
-      heart.src = 'assets/images/white-border-heart.svg';
-    }
-  });
-}
 
 function goBack(){
   const btn = document.getElementById('dount');

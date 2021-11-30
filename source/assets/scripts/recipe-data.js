@@ -1,9 +1,10 @@
 /** @module recipe-data */
 
-// format of the recipe data object
-/** @global */
+/**
+ * This is the official format that a recipe should come in
+ */
 export const recipe_data = {
-  'hash': 'a unique identifier, also the key in localstore',
+  'hash': 'a unique identifier, also the key in localstore',  // format recipe.name$uuid Ex. ice-cream$12kj3kj
   'name': 'name of recipe',
   'thumbnail': 'image url',
   'author': 'name of creator',
@@ -20,8 +21,9 @@ export const recipe_data = {
   'difficulty': 0  // currently configured as ingredients.length*steps.length/readyInMinutes
 };
 
-// fields we want to keep from the raw json response of Spoonacular and what they map to. Ex. 'id' was 'hash'
-/** @global */
+/**
+ * fields we want to keep from the raw json response of Spoonacular and what they map to. Ex. 'id' goes to 'hash'
+ */
 export const keep_fields = {
   'id': 'hash',
   'title': 'name',

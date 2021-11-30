@@ -86,7 +86,9 @@ describe('Basic user flow for Recipe detail page', () => {
 			divs[2].click(),
 			page.waitForNavigation(),
 		]);
-		// TODO: check the page after implementing add page
+    	let label = await page.$('label');
+    	let text = await label.getProperty('innerText');
+    	expect(text['_remoteObject'].value).toBe("NAME: ");
 		await page.goto('http://127.0.0.1:5500/source/recipe-detail.html');
 	});
 
@@ -101,7 +103,9 @@ describe('Basic user flow for Recipe detail page', () => {
 			divs[3].click(),
 			page.waitForNavigation(),
 		]);
-		// TODO: check the page after implementing settings page
+		let font = await page.$('setting-text');
+		let text = await font.getProperty('innerText')
+		expect(text['_remoteObject'].value).toBe("FONTSIZE");
 		await page.goto('http://127.0.0.1:5500/source/recipe-detail.html');
 	});
 });

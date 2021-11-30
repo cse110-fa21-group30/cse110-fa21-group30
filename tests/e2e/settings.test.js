@@ -3,6 +3,9 @@ describe('preference-setting test', () => {
     await page.goto('http://127.0.0.1:5500/source/preference-setting.html');
   });
 
+  /**
+	 * Check save button
+	 */
   it('responds to "save" button press', async () => {
     let saved_check = await page.$('#save-or-not');
     let text = await saved_check.getProperty('innerText');

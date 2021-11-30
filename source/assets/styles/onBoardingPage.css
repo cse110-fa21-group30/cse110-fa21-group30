@@ -1,8 +1,8 @@
 * {
     font-family: 'Inter', sans-serif;
-    margin:0;
-    padding:0;
-    border:0;
+    margin: 0;
+    padding: 0;
+    border: 0;
 }
 
 .background-layer {
@@ -35,7 +35,7 @@
 .diet-asking{
     font-size: 16px;
     text-align: center;
-
+    margin-bottom: 5px;
 }
 
 .diet-asking > p{
@@ -44,19 +44,21 @@
     display: inline-block;
 }
 
-.buttom-text{
+.bottom-text{
     margin-top: 175px;
     font-family: Inter;
     font-style: normal;
     color: #EAB52F;
     font-size: 12px;
     text-align: center;
+    margin-bottom: 10px;
 }
 
-.buttom-text > p{
-    width: 400px;
+.bottom-text > p{
+    width: 320px;
     display: inline-block;
-    font-size: 12px;
+    font-size: 10px;
+    
 }
 
 

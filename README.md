@@ -35,3 +35,8 @@ const add = (a, b) => a + b;
 - Ideally, make sure to lint locally before make the pull request. But it's fine to just push to repo, since CI pipeline would lint again just in case. 
 - We are using [ESLint](https://eslint.org/) as linter. 
 - Only files within the "src" directory would be linted. 
+
+## Quality analysis automation
+- We are using [Codacy](https://www.codacy.com/) to analysis the quality of the source code. 
+- For each pull request, the CI/CD pipeline ([this file in particular](.github/workflows/codacy-analysis.yml)) would automatically enable Codacy and perform analysis as needed. 
+- Codacy also provided us the dashboard to monitor various aspects of the project, including code duplication, complexity, etc. 

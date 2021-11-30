@@ -28,6 +28,30 @@
         "no-unused-vars": [
             "warn",
             { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }
+        ],
+        "no-const-assign": [
+            "error"
+        ],
+        "no-extra-semi": [
+            "warn"
+        ],
+        "semi-spacing": [
+            "error", 
+            {"before": false, "after": true}
+        ],
+        "curly": [
+            "warn",
+            "multi"
+        ],
+        "eqeqeq": [
+            "warn",
+            "smart"
+        ],
+        "no-extra-boolean-cast": [
+            "warn"
+        ],
+        "no-redeclare": [
+            "warn"
         ]
     }
 }

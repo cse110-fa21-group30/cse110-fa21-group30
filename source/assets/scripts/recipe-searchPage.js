@@ -1,5 +1,7 @@
 // recipe-searchPage.js
 
+import * as backend from './backend.js'
+
 window.addEventListener('DOMContentLoaded', init);
 
 async function init() {
@@ -7,6 +9,21 @@ async function init() {
   goSearch();
   goAdd();
   goSettings();
+
+  // sample usage of the search_recipe function
+  const search_button = document.getElementById('search-button');
+  search_button.addEventListener('click', () => {
+    const input = document.getElementById('search-field').value;
+    backend.search_recipe(input).then(console.log);
+    // backend.search_recipe(input, true).then(console.log);  // use this for online search
+  });
+
+  // sample usage of the auto_suggest function
+  const input_field = document.getElementById('search-field');
+  input_field.addEventListener('input', function() {
+    const input = this.value;
+    backend.search_suggest(input).then(console.log);
+  });
 
   // Create a recipe card with mock data
   let recipeCard = document.createElement('recipe-card');
