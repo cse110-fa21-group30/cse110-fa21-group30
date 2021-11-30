@@ -1,3 +1,15 @@
+* {
+    font-family: 'Inter', sans-serif;
+    margin:0;
+    padding:0;
+    border:0;
+}
+
+.background-layer {
+    background-color: #F4BA26;
+    text-align: center;
+}
+
 #dount-p {
     text-align: right;
     margin-top: -60px;
@@ -117,7 +129,6 @@ input {
     font-weight: bold;
     font-size: 30px;
     line-height: 36px;
-
     color: #FFFFFF;
     padding: 10px;
     margin: 10px;
@@ -126,6 +137,13 @@ input {
     text-align: center;
     align-items: center;
     justify-content: center;
+    
+}
+
+#submit:hover {
+    position: relative;
+    top: -5px;
+    box-shadow: 10px 5px 5px gray;
 }
 
 .container {
@@ -300,8 +318,6 @@ background-color: #FFC83A;
     float: left;
     height: 70px;
     text-align: center;
-    
-
 }
 .nav-add {
     /* position: relative; */

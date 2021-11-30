@@ -19,13 +19,12 @@
 </head>
 
 <body>
-  <nav>
-    <img src="assets/images/recipe-search.svg" id="recipe-search">
-  </nav>
-  <p id="dount-p">
-    <img id="dount" src="assets/images/donut.svg">
-  </p>
-  <main>
+  <div class="background-layer">
+    <img src="assets/images/recipe-search.svg" id="recipe-search-text">
+    <p id="dount-p">
+      <img id="dount" src="assets/images/donut.svg">
+    </p>
+
     <section class="section__recipe-detail">
       <div class="recipe-detail__wrapper">
         <!-- Specific recipe detail -->
@@ -63,35 +62,37 @@
             parsley and lemon juice and serve over pasta or accompanied by crusty bread.</p>
         </div>
       </div>
+      <section class="bottom-buttons">
+        <p>Use this mode to help you while you cook</p>
+        <button class="foodie-mode">FOODIE MODE</button>
+        <br />
+        <button class="save">
+          <img src="assets/images/heart0.svg" id="heart" />
+          <p id="save-or-not">SAVE</p>
+        </button>
+      </section>
     </section>
-    <section class="bottom-buttons">
-      <p>Use this mode to help you while you cook</p>
-      <button class="foodie-mode">FOODIE MODE</button>
-      <br />
-      <button class="save">
-        <img src="assets/images/heart0.svg" id="heart" />
-        <p id="save-or-not">SAVE</p>
-      </button>
-    </section>
-    <section class="nav-bar">
-      <div class="nav-dashboard">
-        <p id="nav-dashboard-img"><img src="assets/images/nav-bar-dashboard.svg" alt=""></p>
-        <p id="nav-dashboard-text">DASHBOARD</p>
-      </div>
-      <div class="nav-search">
-        <p id="nav-search-img"><img src="assets/images/nav-bar-search.svg" alt=""></p>
-        <p id="nav-dashboard-text">SEARCH</p>
-      </div>
-      <div class="nav-add">
-        <p id="nav-add-img"><img src="assets/images/nav-bar-add.svg" alt=""></p>
-        <p id="nav-dashboard-text">ADD</p>
-      </div>
-      <div class="nav-settings">
-        <p id="nav-settings-img"><img src="assets/images/nav-bar-settings.svg" alt=""></p>
-        <p id="nav-dashboard-text">SETTINGS</p>
-      </div>
-    </section>
-  </main>
+
+  </div>
+
+  <section class="nav-bar">
+    <div class="nav-dashboard">
+      <p id="nav-dashboard-img"><img src="assets/images/nav-bar-dashboard.svg" alt=""></p>
+      <p id="nav-dashboard-text">DASHBOARD</p>
+    </div>
+    <div class="nav-search">
+      <p id="nav-search-img"><img src="assets/images/nav-bar-search.svg" alt=""></p>
+      <p id="nav-dashboard-text">SEARCH</p>
+    </div>
+    <div class="nav-add">
+      <p id="nav-add-img"><img src="assets/images/nav-bar-add.svg" alt=""></p>
+      <p id="nav-dashboard-text">ADD</p>
+    </div>
+    <div class="nav-settings">
+      <p id="nav-settings-img"><img src="assets/images/nav-bar-settings.svg" alt=""></p>
+      <p id="nav-dashboard-text">SETTINGS</p>
+    </div>
+  </section>
 </body>
 
 </html>

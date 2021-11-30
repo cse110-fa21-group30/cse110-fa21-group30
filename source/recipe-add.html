@@ -15,178 +15,178 @@
 
   <!-- Web Components -->
   <!-- <script src="assets/components/RecipeCard.js" type="module"></script> -->
-  
+
 </head>
 
 <body>
-    <nav>
-        Recipe Search
-        <p id="dount-p">
-            <img id="dount" src="assets/images/donut.svg">
-        </p>
-    </nav>
-    <main>
-        <section class="flexbox">
-            <div class="RecipeBox">
-                <form>
-                    <label for="recipeName">
-                        NAME: 
-                        <input type="text" id="recipeName" name="recipeName">
-                    </label>
+  <div class=".background-layer">
+    Recipe Search
+    <p id="dount-p">
+      <img id="dount" src="assets/images/donut.svg">
+    </p>
+  </div>
+  <main>
+    <section class="flexbox">
+      <div class="RecipeBox">
+        <form>
+          <label for="recipeName">
+            NAME:
+            <input type="text" id="recipeName" name="recipeName">
+          </label>
 
-                    <label for="cookingTime">
-                        Cooking Time:
-                        <input type="text" id="cookingTime" name="cookingTime">
-                    </label>
+          <label for="cookingTime">
+            Cooking Time:
+            <input type="text" id="cookingTime" name="cookingTime">
+          </label>
 
-                    <label for="servingSize">
-                        Serving Size:
-                        <input type="text" id="servingSize" name="servingSize">
-                    </label>
+          <label for="servingSize">
+            Serving Size:
+            <input type="text" id="servingSize" name="servingSize">
+          </label>
 
-                    <div class="radioClass"> 
-                        <label for="diff">Difficulty:
-                        
-                        <label for="diff1" class="labelRadio">
-                            <input type="radio" id="diff1" name="diff" value="1">
-                            <img id="easy" src="assets/images/Easy1.svg">
-                            Easy
-                        </label>
-                        
-                        <label for="diff2" class="labelRadio">
-                            <input type="radio" id="diff2" name="diff" value="2">
-                            <img id="medium" src="assets/images/Medium2.svg">
-                            Medium
-                        </label>
-                        
-                        <label for="diff3" class="labelRadio">
-                            <input type="radio" id="diff3" name="diff" value="3">
-                            <img id="hard" src="assets/images/Hard3.svg">
-                            Hard
-                        </label> 
-                        
-                        <label for="diff2" class="labelRadio">
-                            <input type="radio" id="diff4" name="diff" value="4">
-                            <img id="veryHard" src="assets/images/VeryHard4.svg">
-                            Very Hard
-                        </label>
-                    </label>
-                    </div><br>
+          <div class="radioClass">
+            <label for="diff">Difficulty:
 
-                    <label for="diet-restrictionBox">Recipe Dietary Labels:</label>
-                    <div class="diet-restrictionBox">
-                      <div class="container">
-                        <div class="word">Dietary Restrictions</div>
-                        <div class="left">
-                          <label class="container">Vegan
-                            <input type="checkbox">
-                            <span class="checkmark"></span>
-                          </label>
-                          <label class="container">Vegetarian
-                            <input type="checkbox">
-                            <span class="checkmark"></span>
-                          </label>
-                          <label class="container">Dairy-dree
-                            <input type="checkbox">
-                            <span class="checkmark"></span>
-                          </label>
-                          <label class="container">Egg-free
-                            <input type="checkbox">
-                            <span class="checkmark"></span>
-                          </label>
-                          <label class="container">Shellfish-free
-                            <input type="checkbox">
-                            <span class="checkmark"></span>
-                          </label>
-                        </div>
-                        <div class="right">
-                          <label class="container">Gluten-free
-                            <input type="checkbox">
-                            <span class="checkmark"></span>
-                          </label>
-                          <label class="container">Tree Nut-free
-                            <input type="checkbox">
-                            <span class="checkmark"></span>
-                          </label>
-                          <label class="container">Peanut-free
-                            <input type="checkbox">
-                            <span class="checkmark"></span>
-                          </label>
-                          <label class="container">Fish-free
-                            <input type="checkbox">
-                            <span class="checkmark"></span>
-                          </label>
-                          <label class="container">Soy-free
-                            <input type="checkbox">
-                            <span class="checkmark"></span>
-                          </label>
-                        </div>
-                      </div>
-                    </div>
-                  
+              <label for="diff1" class="labelRadio">
+                <input type="radio" id="diff1" name="diff" value="1">
+                <img id="easy" src="assets/images/Easy1.svg">
+                Easy
+              </label>
 
+              <label for="diff2" class="labelRadio">
+                <input type="radio" id="diff2" name="diff" value="2">
+                <img id="medium" src="assets/images/Medium2.svg">
+                Medium
+              </label>
 
+              <label for="diff3" class="labelRadio">
+                <input type="radio" id="diff3" name="diff" value="3">
+                <img id="hard" src="assets/images/Hard3.svg">
+                Hard
+              </label>
 
-                    <label for="img">Select image:
-                        <input type="file" id="img" name="img" accept="image/*">
-                    </label>
-                    
+              <label for="diff2" class="labelRadio">
+                <input type="radio" id="diff4" name="diff" value="4">
+                <img id="veryHard" src="assets/images/VeryHard4.svg">
+                Very Hard
+              </label>
+            </label>
+          </div><br>
 
-
-                    <label for="ingredients">Ingredients:</label>
-                    <div class="ingredientList">
-                        <ol type = "1" id="ingredientOrderedList">
-                            <li>
-                                <input type='text' id='ingredients' name='ingredients'>
-                            </li>
-                            <li>
-                                <input type='text' id='ingredients' name='ingredients'>
-                            </li>
-                        </ol>
-                        <button class="ingredientButton" id="ingredientButton" type="button">Add Ingredient</button>
-                    </div>
-
-                    <label for="instructions">Instructions:</label>
-                    <div class="instructionList">
-                        <ol type = "1" id="instructionOrderedList">
-                            <li>
-                                <input type='text' id='instructions' name='instructions'>
-                            </li>
-                            <li>
-                                <input type='text' id='instructions' name='instructions'>
-                            </li>
-                        </ol>
-                        <button class="instructionButton" id="instructionButton" type="button">Add Step</button>
-                    </div>
-
-                    <input type="submit" id="submit" value="Add Recipe">
-                </form>
+          <label for="diet-restrictionBox">Recipe Dietary Labels:</label>
+          <div class="diet-restrictionBox">
+            <div class="container">
+              <div class="word">Dietary Restrictions</div>
+              <div class="left">
+                <label class="container">Vegan
+                  <input type="checkbox">
+                  <span class="checkmark"></span>
+                </label>
+                <label class="container">Vegetarian
+                  <input type="checkbox">
+                  <span class="checkmark"></span>
+                </label>
+                <label class="container">Dairy-dree
+                  <input type="checkbox">
+                  <span class="checkmark"></span>
+                </label>
+                <label class="container">Egg-free
+                  <input type="checkbox">
+                  <span class="checkmark"></span>
+                </label>
+                <label class="container">Shellfish-free
+                  <input type="checkbox">
+                  <span class="checkmark"></span>
+                </label>
+              </div>
+              <div class="right">
+                <label class="container">Gluten-free
+                  <input type="checkbox">
+                  <span class="checkmark"></span>
+                </label>
+                <label class="container">Tree Nut-free
+                  <input type="checkbox">
+                  <span class="checkmark"></span>
+                </label>
+                <label class="container">Peanut-free
+                  <input type="checkbox">
+                  <span class="checkmark"></span>
+                </label>
+                <label class="container">Fish-free
+                  <input type="checkbox">
+                  <span class="checkmark"></span>
+                </label>
+                <label class="container">Soy-free
+                  <input type="checkbox">
+                  <span class="checkmark"></span>
+                </label>
+              </div>
             </div>
-        </section>
+          </div>
 
 
 
-        <section class="nav-bar">
-            <div class="nav-dashboard">
-              <p id="nav-dashboard-img"><img src="assets/images/nav-bar-dashboard.svg" alt=""></p>
-              <p id="nav-dashboard-text">DASHBOARD</p>
-            </div>
-            <div class="nav-search">
-              <p id="nav-search-img"><img src="assets/images/nav-bar-search.svg" alt=""></p>
-              <p id="nav-dashboard-text">SEARCH</p>
-            </div>
-            <div class="nav-add">
-              <p id="nav-add-img"><img src="assets/images/nav-bar-add.svg" alt=""></p>
-              <p id="nav-dashboard-text">ADD</p>
-            </div>
-            <div class="nav-settings">
-              <p id="nav-settings-img"><img src="assets/images/nav-bar-settings.svg" alt=""></p>
-              <p id="nav-dashboard-text">SETTINGS</p>
-            </div>
-          </section>
-    </main>
 
-    <script src="assets/scripts/recipe-add.js"></script>
+          <label for="img">Select image:
+            <input type="file" id="img" name="img" accept="image/*">
+          </label>
+
+
+
+          <label for="ingredients">Ingredients:</label>
+          <div class="ingredientList">
+            <ol type="1" id="ingredientOrderedList">
+              <li>
+                <input type='text' id='ingredients' name='ingredients'>
+              </li>
+              <li>
+                <input type='text' id='ingredients' name='ingredients'>
+              </li>
+            </ol>
+            <button class="ingredientButton" id="ingredientButton" type="button">Add Ingredient</button>
+          </div>
+
+          <label for="instructions">Instructions:</label>
+          <div class="instructionList">
+            <ol type="1" id="instructionOrderedList">
+              <li>
+                <input type='text' id='instructions' name='instructions'>
+              </li>
+              <li>
+                <input type='text' id='instructions' name='instructions'>
+              </li>
+            </ol>
+            <button class="instructionButton" id="instructionButton" type="button">Add Step</button>
+          </div>
+
+          <input type="submit" id="submit" value="Add Recipe">
+        </form>
+      </div>
+    </section>
+
+
+
+    <section class="nav-bar">
+      <div class="nav-dashboard">
+        <p id="nav-dashboard-img"><img src="assets/images/nav-bar-dashboard.svg" alt=""></p>
+        <p id="nav-dashboard-text">DASHBOARD</p>
+      </div>
+      <div class="nav-search">
+        <p id="nav-search-img"><img src="assets/images/nav-bar-search.svg" alt=""></p>
+        <p id="nav-dashboard-text">SEARCH</p>
+      </div>
+      <div class="nav-add">
+        <p id="nav-add-img"><img src="assets/images/nav-bar-add.svg" alt=""></p>
+        <p id="nav-dashboard-text">ADD</p>
+      </div>
+      <div class="nav-settings">
+        <p id="nav-settings-img"><img src="assets/images/nav-bar-settings.svg" alt=""></p>
+        <p id="nav-dashboard-text">SETTINGS</p>
+      </div>
+    </section>
+  </main>
+
+  <script src="assets/scripts/recipe-add.js"></script>
 
 
 </body>
