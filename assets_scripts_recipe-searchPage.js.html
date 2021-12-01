@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>assets/scripts/recipe-data.js - Documentation</title>
+    <title>assets/scripts/recipe-searchPage.js - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,7 +29,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">assets/scripts/recipe-data.js</h1>
+    <h1 class="page-title">assets/scripts/recipe-searchPage.js</h1>
     
 
     
@@ -39,48 +39,209 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>/** @module recipe-data */
+            <pre class="prettyprint source linenums"><code>// recipe-searchPage.js
+
+import * as backend from './backend.js';
+
+window.addEventListener('DOMContentLoaded', init);
+
+async function init() {
+  goDashboard();
+  goSearch();
+  goAdd();
+  goSettings();
+  
+  defaultPreference();
+  readPreference();
+
+  bindSearchBar();
+  bindSearchButton();
+}
 
 /**
- * This is the official format that a recipe should come in
+ * event listeners on search input change
  */
-export const recipe_data = {
-  'hash': 'a unique identifier, also the key in localstore',  // format recipe.name$uuid Ex. ice-cream$12kj3kj
-  'name': 'name of recipe',
-  'thumbnail': 'image url',
-  'author': 'name of creator',
-  'dishTypes': [],  // array of string. breakfast/lunch/etc.
-  'ingredients': [],  // array of Spoonacular ingredient objects
-  'intolerances': [],  // array of intolerances
-  'steps': [],  // array of Spoonacular step objects
-  'cuisines': [],  // 'array of string. American/Idian/etc.'
-  'pricePerServing': 0,
-  'readyInMinutes': 0,
-  'servings': 0,
-  'vegan': true,
-  'vegetarian': true,
-  'difficulty': 0  // currently configured as ingredients.length*steps.length/readyInMinutes
-};
+function bindSearchBar() {
+  const input_field = document.getElementById('search-field');
+  input_field.addEventListener('input', function() {
+    const input = this.value;
+    backend.search_suggest(input).then(suggestions => {
+      clearDropdowns();
+      // rebuild
+      const search_bar = document.querySelector(".search-bar");
+      suggestions.forEach(suggestion => {
+        const dropdown = document.createElement('div');
+        dropdown.className = "suggest_dropdown";
+        dropdown.innerHTML = suggestion;
+        dropdown.addEventListener("click", function() {
+          input_field.value = this.innerHTML;
+          hitSearch();
+        });
+        search_bar.appendChild(dropdown);
+      });
+    });
+  });
+}
 
 /**
- * fields we want to keep from the raw json response of Spoonacular and what they map to. Ex. 'id' goes to 'hash'
+ * event listeners on search button click
  */
-export const keep_fields = {
-  'id': 'hash',
-  'title': 'name',
-  'image': 'thumbnail',
-  'sourceName': 'author',
-  'dishTypes': 'dishTypes',
-  'extendedIngredients': 'ingredients',
-  'diets': 'intolerances',
-  'analyzedInstructions': 'steps',
-  'cuisines': 'cuisines',
-  'pricePerServing': 'pricePerServing',
-  'readyInMinutes': 'readyInMinutes',
-  'servings': 'servings',
-  'vegan': 'vegan',
-  'vegetarian': 'vegetarian'
-};
+function bindSearchButton() {
+  // Create a recipe card
+  let recipeCard = document.createElement('recipe-card');
+  recipeCard.data = {};
+  document.querySelector('.recipes__wrapper').appendChild(recipeCard);
+  let recipe_list = document.querySelector(".recipes__wrapper");
+  recipe_list.innerHTML = "";  // clear old recipe cards
+  //set the default filter
+  defaultPreference();
+  //select the button
+  //once the button got clicked, request the data from api and then output the result
+  let button = document.querySelector('#search-button');
+  button.addEventListener('click', hitSearch);
+}
+
+/**
+ * app logic when we hit search
+ */
+function hitSearch() {
+  clearDropdowns();  // remove all suggestions
+  let recipe_list = document.querySelector(".recipes__wrapper");
+  recipe_list.innerHTML = "";  // clear old recipe cards
+  let list = readPreference();
+  let recipe_name = document.querySelector('#search-field').value;
+  backend.search_recipe(recipe_name, true, 10, list).then(data => {
+    recipe_list.innerHTML="";
+    for(let i = 0; i &lt; data.length; i++){
+      let recipeCard = document.createElement('recipe-card');
+      recipeCard.data = backend.get_recipe(data[i]);
+      document.querySelector('.recipes__wrapper').appendChild(recipeCard);
+    }
+    configureRecipeCards();
+  });
+
+  // USE FOR TESTING PURPOSES – to not overwhelm API
+  // let recipe = backend.get_recipe('Apple Pie Pancakes$5316512375443084');
+  // let recipeCard = document.createElement('recipe-card');
+  // recipeCard.data = recipe;
+  // document.querySelector('.recipes__wrapper').appendChild(recipeCard);
+  // configureRecipeCards();
+}
+
+/**
+ * wipe dropdowns
+ */
+function clearDropdowns() {
+  const search_bar = document.querySelector(".search-bar");
+  const suggest_dropdowns = document.getElementsByClassName('suggest_dropdown');
+  let dropdown_length = suggest_dropdowns.length;
+  while (dropdown_length --> 0) {
+    search_bar.removeChild(suggest_dropdowns[dropdown_length]);
+  }
+}
+
+/**
+ * add event listeners for each recipe card onclick
+ */
+function configureRecipeCards() {
+  const recipeCards = document.querySelectorAll('recipe-card');
+  recipeCards.forEach((card) => {
+    card.addEventListener('click', () => {
+      backend.select_recipe(card.shadowRoot.querySelector('.hash').textContent);
+      window.location.replace('recipe-detail.html');
+    });
+  });
+}
+
+/**
+ * read the check boxes to return a list of preferences
+ * @returns {Array&lt;string>} an array of preferences
+ */
+function readPreference(){
+  let intolerance_list = [];
+  const leftElmt = document.querySelector('.left');
+  const leftCkbox = leftElmt.getElementsByClassName('container');
+
+  for(let i = 0; i &lt; leftCkbox.length; i++){
+    let ingredientBox = leftCkbox[i].getElementsByTagName('input')[0];
+    if(ingredientBox.checked){
+      let ingredientText = leftCkbox[i].innerText;
+      intolerance_list.push(ingredientText);
+    }
+  }
+
+  const rightElmt = document.querySelector('.right');
+  const rightCkbox = rightElmt.getElementsByClassName('container');
+  for(let i = 0; i &lt; rightCkbox.length; i++){
+    let ingredientBox = rightCkbox[i].getElementsByTagName('input')[0];
+    if(ingredientBox.checked){
+      let ingredientText = rightCkbox[i].innerText;
+      intolerance_list.push(ingredientText);
+    }
+  }
+
+  return intolerance_list;
+}
+
+/**
+ * apply the default preferences to the UI
+ */
+function defaultPreference(){
+  let intolerance_list = backend.get_intolerance();
+
+  const leftElmt = document.querySelector('.left');
+  const leftCkbox = leftElmt.getElementsByClassName('container');
+  for(let i = 0; i &lt; leftCkbox.length; i++){
+    let ingredientBox = leftCkbox[i].getElementsByTagName('input')[0];
+    let ingredientText = leftCkbox[i].innerText;
+
+    if(intolerance_list.includes(ingredientText)){
+      ingredientBox.checked = true;
+    }
+  }
+
+  const rightElmt = document.querySelector('.right');
+  const rightCkbox = rightElmt.getElementsByClassName('container');
+  for(let i = 0; i &lt; rightCkbox.length; i++){
+    let ingredientBox = rightCkbox[i].getElementsByTagName('input')[0];
+    let ingredientText = rightCkbox[i].innerText;
+
+    if(intolerance_list.includes(ingredientText)){
+      ingredientBox.checked = true;
+    }
+  }
+
+}
+
+function goDashboard() {
+  const btn = document.getElementsByClassName('nav-dashboard');
+
+  btn[0].addEventListener('click', () => {
+    window.location.replace('index.html');
+  });
+}
+
+function goSearch() {
+  const btn = document.getElementsByClassName('nav-search');
+
+  btn[0].addEventListener('click', () => {
+    window.location.replace('recipe-searchPage.html');
+  });
+}
+function goAdd() {
+  const btn = document.getElementsByClassName('nav-add');
+
+  btn[0].addEventListener('click', () => {
+    window.location.replace('recipe-add.html');
+  });
+}
+function goSettings() {
+  const btn = document.getElementsByClassName('nav-settings');
+
+  btn[0].addEventListener('click', () => {
+    window.location.replace('settings.html');
+  });
+}
 </code></pre>
         </article>
     </section>
