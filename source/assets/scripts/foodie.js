@@ -69,11 +69,3 @@ function bindNextButton(prevButton, nextButton) {
     updateStep();
   });
 }
-
-const updateStep = () => {
-  const stepNum = document.querySelector('#step-num');
-  const step = document.querySelector('#step');
-
-  stepNum.textContent = `STEP ${currStep + 1}`;
-  step.textContent = steps[currStep];
-};
