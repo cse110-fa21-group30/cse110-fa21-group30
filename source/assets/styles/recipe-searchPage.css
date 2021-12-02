@@ -360,6 +360,8 @@ grid-template-columns: 100px 120px 120px;
   margin: 0; 
   color: white;
   font-size: 12px;
+  font-weight: 400;
+  font-family: 'Inter', sans-serif;
   /* padding-top: 3px;
   padding-bottom: 6px; */
 }
