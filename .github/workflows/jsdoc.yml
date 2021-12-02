@@ -21,6 +21,7 @@ jobs:
           output_dir: ./doc
           recurse: true
           template: minami
+          run: npm audit
           front_page: README.md
           
       - name: Deploy
