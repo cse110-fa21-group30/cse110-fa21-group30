@@ -75,7 +75,7 @@ function goAdd() {
   const btn = document.getElementsByClassName('nav-add');
 
   btn[0].addEventListener('click', () => {
-    window.location.replace('recipe-add.html');
+    window.location.replace('#');
   });
 }
 function goSettings() {
