@@ -25,14 +25,6 @@ function getSteps() {
   steps = recipe.steps.map((step) => step.step);
 }
 
-function updateStep() {
-  const stepNum = document.querySelector('#step-num');
-  const step = document.querySelector('#step');
-
-  stepNum.textContent = `STEP ${currStep + 1}`;
-  step.textContent = steps[currStep];
-};
-
 function bindExitButton() {
   const exitBtn = document.getElementById('exit');
   exitBtn.addEventListener('click', () => {
@@ -69,3 +61,11 @@ function bindNextButton(prevButton, nextButton) {
     updateStep();
   });
 }
+
+const updateStep = () => {
+  const stepNum = document.querySelector('#step-num');
+  const step = document.querySelector('#step');
+
+  stepNum.textContent = `STEP ${currStep + 1}`;
+  step.textContent = steps[currStep];
+};
