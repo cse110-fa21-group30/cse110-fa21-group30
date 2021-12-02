@@ -26,4 +26,4 @@ Where: Zoom
 - Went through progress on backend & Codacy issues
 
 ## Decisions Made
-- Everyone needs to complete the LettuceMeet so that the meeting time for this week can be decided
+- Everyone needs to complete the LettuceMeet so that the meeting time for this week can be decide
