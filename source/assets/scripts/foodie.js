@@ -9,6 +9,7 @@ let currStep = 0;
 let steps = [];
 
 async function init() {
+  getSteps();
   updateStep();
 
   bindExitButton();
