@@ -20,7 +20,6 @@ jobs:
           source_dir: ./source
           output_dir: ./doc
           recurse: true
-          config_file: conf.json
           run: npm audit
           template: minami
           front_page: README.md
