@@ -17,10 +17,9 @@ jobs:
       - name: Build doc
         uses: andstor/jsdoc-action@v1
         with:
-          source_dir: ./source
+          source_dir: ./source/assets/scripts
           output_dir: ./doc
           recurse: true
-          run: npm audit
           template: minami
           front_page: README.md
           
