@@ -34,7 +34,7 @@ class RecipeCard extends HTMLElement {
 
             article > span {
                 color: #fff;
-                padding: 4px 9px;
+                padding: 3px 9px;
                 border-radius: 50%;
                 font-weight: 500;
                 font-size: 18px;
