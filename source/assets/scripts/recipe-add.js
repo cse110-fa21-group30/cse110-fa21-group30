@@ -5,8 +5,6 @@ import * as backend from './backend.js';
 
 window.addEventListener('DOMContentLoaded', init);
 
-import * as backend from './backend.js';
-
 var ingredientIndex = 1;
 var instructionIndex = 1;
 
