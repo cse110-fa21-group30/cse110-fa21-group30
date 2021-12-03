@@ -18,8 +18,7 @@ export const recipe_data = {
   'servings': 0,
   'vegan': true,
   'vegetarian': true,
-  'difficulty': 0,  // currently configured as ingredients.length*steps.length/readyInMinutes
-  'difficulty_realLevel':0
+  'difficulty': 0  // currently configured as ingredients.length*steps.length/readyInMinutes
 };
 
 /**

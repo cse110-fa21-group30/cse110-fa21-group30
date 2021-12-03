@@ -140,27 +140,19 @@ class RecipeCard extends HTMLElement {
     });
 
     const level = document.createElement('span');
-    //Need to distinguish the difficulty calculation for custom and normal one
+    const setLevel = data.difficulty;
     let numLevel;
-    if(data.difficulty_realLevel == null){
-      const setLevel = data.difficulty;
-  
-      if (setLevel > 0.75) 
-        numLevel = 4;
-      else if (setLevel > 0.50) 
-        numLevel = 3;
-      else if (setLevel > 0.25) 
-        numLevel = 2;
-      else 
-        numLevel = 1;
-        level.textContent = numLevel;
-    }
-    else{
-      numLevel = data.difficulty_realLevel;
-      level.textContent = numLevel;
-    }
 
+    if (setLevel > 0.75) 
+      numLevel = 4;
+    else if (setLevel > 0.50) 
+      numLevel = 3;
+    else if (setLevel > 0.25) 
+      numLevel = 2;
+    else 
+      numLevel = 1;
     
+    level.textContent = numLevel;
     level.classList.add(`level-${numLevel}`);
 
 

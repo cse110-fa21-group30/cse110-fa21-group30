@@ -44,7 +44,7 @@ function addNewRecipe() {
     for (let i = 0, length = radios.length; i < length; i++) 
       if (radios[i].checked) {
         // do whatever you want with the checked radio
-        recipe.difficulty_realLevel = radios[i].value;
+        recipe.difficulty = radios[i].value;
         console.log(radios[i].value);
         // only one radio can be logically checked, don't check the rest
         break;

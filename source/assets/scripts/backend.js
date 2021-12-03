@@ -134,19 +134,6 @@ export function remove_recipe(recipe_hash){
 }
 
 /**
- * Remove the recipe temporaly, just for deleting the api's intolerance tags
- * @param {string} recipe_hash
- */
- export function remove_recipe_forIntolerance(recipe_hash){
-  if(localStorage.getItem(recipe_hash)) {
-    localStorage.removeItem(recipe_hash);
-    // note that we also need to remove it from both the custom and favorite arr
-  } else 
-    console.warn(`${recipe_hash} not in localstore, check your arguments`);
-  
-}
-
-/**
  * add a recipe hash to an array. helper function for add favorite/custom
  * @param {string} recipe_hash 
  * @param {string} arr_name 
@@ -426,7 +413,7 @@ export function filter_intolerance(recipe_hashes, intolerances) {
     for (let i = 0; i < intolerances.length; i++){
      recipe.intolerances.push(intolerances[i]);
     }
-    remove_recipe_forIntolerance(recipe_hash);
+    remove_recipe(recipe_hash);
     add_recipe(recipe);
     return true;  // otherwise, include
   });
