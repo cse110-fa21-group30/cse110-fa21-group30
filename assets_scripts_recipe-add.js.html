@@ -53,101 +53,102 @@ function addNewRecipe() {
   const form = document.getElementById('add-recipe-form');
 
   form.addEventListener('submit', (event) => {
-    // handle the form data
-    console.log('New Recipe Added');
+      // handle the form data
+      console.log("New Recipe Added");
 
-    event.preventDefault();
-    let recipe = {};
+      event.preventDefault();
+      let recipe = {};
 
-    const nameField = document.getElementById('recipeName').value;
-    recipe.name = nameField;
+      const nameField = document.getElementById('recipeName').value;
+      recipe.name = nameField;
 
-    const cookingTimeField = document.getElementById('cookingTime').value;
-    recipe.readyInMinutes = cookingTimeField;
+      const cookingTimeField = document.getElementById('cookingTime').value;
+      recipe.readyInMinutes = cookingTimeField;
 
-    const servingSizeField = document.getElementById('servingSize').value;
-    recipe.servings = servingSizeField;
+      const servingSizeField = document.getElementById('servingSize').value;
+      recipe.servings = servingSizeField;
 
-    let radios = document.getElementsByName('diff');
-    for (let i = 0, length = radios.length; i &lt; length; i++) 
-      if (radios[i].checked) {
-        // do whatever you want with the checked radio
-        recipe.difficulty = radios[i].value;
-        console.log(radios[i].value);
-        // only one radio can be logically checked, don't check the rest
-        break;
+      let radios = document.getElementsByName('diff');
+      for (let i = 0, length = radios.length; i &lt; length; i++) {
+        if (radios[i].checked) {
+          // do whatever you want with the checked radio
+          recipe.difficulty = radios[i].value;
+          console.log(radios[i].value);
+          // only one radio can be logically checked, don't check the rest
+          break;
+        }
       }
-      
 
-    var veganBox = document.getElementById('vegan');
-    if (veganBox.checked)
-      recipe.vegan = true;
-    else
-      recipe.vegan = false;
-      
+      var veganBox = document.getElementById("vegan");
+      if (veganBox.checked == true){
+        recipe.vegan = true;
+      } else{
+        recipe.vegan = false;
+      }
 
-    var veggieBox = document.getElementById('veggie');
-    if (veggieBox.checked)
-      recipe.vegetarian = true;
-    else
-      recipe.vegetarian = false;
-      
+      var veggieBox = document.getElementById("veggie");
+      if (veggieBox.checked == true){
+        recipe.vegetarian = true;
+      } else{
+        recipe.vegetarian = false;
+      }
 
-    //add image ???
+      //add image ???
       
-    let ingredientListLength = document.querySelectorAll('#ingredientOrderedList li').length;
+      let ingredientListLength = document.querySelectorAll("#ingredientOrderedList li").length;
 
-    let ingredientArr = [];
-    console.log(ingredientListLength);
-    let ingredientArrIndex = 0;
+      let ingredientArr = [];
+      console.log(ingredientListLength);
+      let ingredientArrIndex = 0;
     
-    // ingredientIndex: # of all the li's added (including the li's which are deleted)
-    for(let i = 1; i &lt;= ingredientIndex; i++){
-      let str = 'ingredient-'+i;
-      console.log(str);
-      let ing = document.getElementById(str);
-      // check whether the li is deleted - if deleted, it is null, don't add.
-      if (ing !== null){
-        console.log(ing.value);
-        let theIngredient = {original:ing.value};
-        ingredientArr[ingredientArrIndex] = theIngredient;
-        ingredientArrIndex += 1;
+      // ingredientIndex: # of all the li's added (including the li's which are deleted)
+      for(let i = 1; i &lt;= ingredientIndex; i++){
+        let str = "ingredient-"+i;
+        console.log(str);
+        let ing = document.getElementById(str);
+        // check whether the li is deleted or empty - if deleted, it is null, don't add.
+        if (ing !== null || ing.value === '') {
+          // console.log(ing.value);
+          let theIngredient = {name:ing.value};
+          ingredientArr[ingredientArrIndex] = theIngredient;
+          ingredientArrIndex += 1;
+        }
       }
-    }
-    recipe.ingredients = ingredientArr;
+      recipe.ingredients = ingredientArr;
 
-    //instruction 
-    let instructionListLength = document.querySelectorAll('#instructionOrderedList li').length;
+      //instruction 
+      let instructionListLength = document.querySelectorAll("#instructionOrderedList li").length;
 
-    let instructionArr = [];
-    console.log(instructionListLength);
-    let instructionArrIndex = 0;
+      let instructionArr = [];
+      console.log(instructionListLength);
+      let instructionArrIndex = 0;
     
-    // instructionIndex: # of all the li's added (including the li's which are deleted)
-    for(let i = 1; i &lt;= instructionIndex; i++){
-      let str = 'instruction-'+i;
-      console.log(str);
-      let ing = document.getElementById(str);
-      // check whether the li is deleted - if deleted, it is null, don't add.
-      if (ing !== null){
-        console.log(ing.value);
-        let step = {number:i, step:ing.value};
-        instructionArr[instructionArrIndex] = step;
-        instructionArrIndex += 1;
+      // instructionIndex: # of all the li's added (including the li's which are deleted)
+      for(let i = 1; i &lt;= instructionIndex; i++){
+        let str = "instruction-"+i;
+        console.log(str);
+        let ing = document.getElementById(str);
+        // check whether the li is deleted - if deleted, it is null, don't add.
+        if (ing !== null){
+          console.log(ing.value);
+          let step = {number:i, step:ing.value};
+          instructionArr[instructionArrIndex] = step;
+          instructionArrIndex += 1;
+        }
       }
-    }
-    recipe.steps = instructionArr;
+      recipe.steps = instructionArr;
 
-    recipe.intolerances = [];
+      recipe.intolerances = [];
 
-    console.log(recipe);
+      console.log(recipe);
 
-    try {
-      backend.add_recipe(recipe, true);  // using the backend to simply logic
-      window.location.assign('index.html');
-    } catch(e) {
-      alert(e);
-    }
+      try {
+        backend.add_recipe(recipe, true);  // using the backend to simply logic
+        window.location.replace('index.html');
+      } catch(e) {
+        alert(e);
+      }
+
   });
 }
 
@@ -266,7 +267,7 @@ function defaultPreference(){
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Fri Dec 03 2021 08:20:50 GMT+0000 (Coordinated Universal Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Fri Dec 03 2021 08:23:07 GMT+0000 (Coordinated Universal Time)
 </footer>
 
 <script> prettyPrint(); </script>
