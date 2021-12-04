@@ -27,9 +27,9 @@ function getSteps() {
 }
 
 function bindExitButton() {
-  const exitBtn = document.getElementById('exit');
+  const exitBtn = document.getElementById('dount-p');
   exitBtn.addEventListener('click', () => {
-    window.location.assign('recipe-detail.html');
+    window.history.back();
   });
 }
 
