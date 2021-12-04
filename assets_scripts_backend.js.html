@@ -65,69 +65,42 @@ export async function fetch_recipe(name) {
     Object.keys(keep_fields).forEach(key => recipe[keep_fields[key]] = raw_recipe[key]);
     if (recipe.steps.length) 
       recipe.steps = recipe.steps[0].steps;  // special modification: spoonacular's step array is cursed
-    recipe=reset_intolerences(recipe);
+    recalculate_intolerances(recipe);
     return add_recipe(recipe);
   });
 }
 
 /**
- * Reset the intolerences list for the recipe
- * @param {*} recipe the recipe object
- * @returns the recipe object
+ * recalculates the intolerences list for the recipe. modifies in-place
+ * @param {*} recipe - the recipe object
  */
-function reset_intolerences(recipe){
-  var tag = new Object();
-  tag['Vegan']=true;
-  tag['Vegetarian']=true;
-  tag['Dairy-free']=true;
-  tag['Seafood-free']=true;
-  tag['Gluten-free']=true;
-  tag['Tree Nut-free']=true;
-  tag['Peanut-free']=true;
-  tag['Soy-free']=false;
-  let Vegan_set=new Set();
-  let Vegetarian_set=new Set();
-  let Dairy_set=new Set();
-  let Seafood_set=new Set();
-  let Gluten_set=new Set();
-  let Tree_nut_set=new Set();
-  let Peanut_set=new Set();
-  Vegan_set.add("Meat");
-  Vegan_set.add("Milk, Eggs, Other Dairy");
-  Vegan_set.add("Canned and Jarred");
-  Vegan_set.add("Seafood");
-  Vegetarian_set.add("Meat");
-  Vegetarian_set.add("Canned and Jarred");
-  Vegetarian_set.add("Seafood");
-  Dairy_set.add("Milk, Eggs, Other Dairy");
-  Seafood_set.add("Seafood");
-  Gluten_set.add("Baking");
-  Tree_nut_set.add("Nuts");
-  Tree_nut_set.add("Savory Snacks");
-  Peanut_set.add("Nuts");
-  Peanut_set.add("Savory Snacks");
-  let ingredients=recipe.ingredients
-  for (let ingredient of ingredients) {
+function recalculate_intolerances(recipe){
+  const tag = {'Vegan':true, 'Vegetarian':true, 'Dairy-free':true, 'Seafood-free':true,
+             'Gluten-free':true, 'Tree Nut-free':true, 'Peanut-free':true, 'Soy-free':true};  // making soyfree true
+  const sets = {};
+  sets['Vegan'] = new Set(['Meat', 'Milk, Eggs, Other Dairy', 'Seafood']);
+  sets['Vegetarian'] = new Set(['Meat', 'Seafood']);
+  sets['Dairy-free'] = new Set(['Milk, Eggs, Other Dairy']);
+  sets['Seafood-free'] = new Set(['Seafood']);
+  sets['Gluten-free'] = new Set(['Baking']);
+  sets['Tree Nut-free'] = new Set(['Nuts', 'Savory Snacks']);
+  sets['Peanut-free'] = new Set(['Nuts', 'Savory Snacks']);
+  for (let ingredient of recipe.ingredients) {
     if (!ingredient.aisle) continue;  // empty aisle info, do nothing
     const aisles = ingredient.aisle.split(';');  // split to get many aisles since a product can be in multiple
-     for (let aisle of aisles){
-       if (Vegan_set.has(aisle)) tag['Vegan']=false;
-       if (Vegetarian_set.has(aisle)) tag['Vegetarian']=false;
-       if (Dairy_set.has(aisle)) tag['Dairy-free']=false;
-       if (Peanut_set.has(aisle)) tag['Seafood-free']=false;
-       if (Seafood_set.has(aisle)) tag['Gluten-free']=false;
-       if (Tree_nut_set.has(aisle)) tag['Tree Nut-free']=false;
-       if (Vegan_set.has(aisle)) tag['Peanut-free']=false;
-     }
+    for (let aisle of aisles) {
+      for (let key in sets) {
+        if (sets[key].has(aisle)) tag[key] = false;
+      }
+    }
   }
-  if (recipe.intolerances.includes('soy free')) tag['Soy-free']=true; 
+  // if (recipe.intolerances.includes('Soy-free')) tag['Soy-free']=true; 
   recipe.intolerances=[]
   for(let i in tag){
     if(tag[i]===true){
       recipe.intolerances.push(i);
     }
   }
-  return recipe;
 }
 /**
  * compute the hash of a recipe by hashing its steps as a string
@@ -388,9 +361,7 @@ function min_edit_dist(str1, str2, del_cost=1, add_cost=1) {
       else   // we will have to edit
         dp[i][j] = Math.min(dp[i-1][j-1]+sub_cost(c1, c2), 
           Math.min(dp[i-1][j]+del_cost, dp[i][j-1]+add_cost));  // min of the three
-      
     }
-  
   return dp[m][n];
 }
 
@@ -424,7 +395,6 @@ export async function search_recipe(name, online=false, match_tolerance=10, into
     else 
       dist = min_edit_dist(name, recipe_name);  // calculate its edit dist
     
-
     if (dist &lt; match_tolerance)
       result.push([recipe_hash, dist]);  // use the distance as a sorting key
   });
@@ -462,52 +432,13 @@ export async function search_suggest(name, match_tolerance=15, return_size=5) {
  * @return {Array&lt;string>} - a list of filtered recipe hashes
  */
 export function filter_intolerance(recipe_hashes, intolerances) {
-
   if (intolerances == null || !Array.isArray(intolerances)) 
     return recipe_hashes;  // nothing to do, return the original list
   
-
-  // at this point, we have some intolerances
-  const aisles_to_avoid = new Set();  // Make a hashset for checking
-  for (let i = 0; i &lt; intolerances.length; i++) 
-    switch (intolerances[i]) {
-      case 'Vegan':
-        aisles_to_avoid.add("Meat");
-        aisles_to_avoid.add("Milk, Eggs, Other Dairy");
-        aisles_to_avoid.add("Canned and Jarred");
-        aisles_to_avoid.add("Seafood");
-        break;
-      case 'Vegetarian':
-        aisles_to_avoid.add("Meat");
-        aisles_to_avoid.add("Canned and Jarred");
-        aisles_to_avoid.add("Seafood");
-        break;
-      case 'Dairy-free':
-        aisles_to_avoid.add("Milk, Eggs, Other Dairy");
-        break;
-      case 'Seafood-free':
-        aisles_to_avoid.add("Seafood");
-        break;
-      case 'Gluten-free':
-        aisles_to_avoid.add("Baking");
-        break;
-      case 'Tree Nut-free':
-        aisles_to_avoid.add("Nuts");
-        aisles_to_avoid.add("Savory Snacks");
-        break;
-      case 'Peanut-free':
-        aisles_to_avoid.add("Nuts");
-        aisles_to_avoid.add("Savory Snacks");
-        break;
-    }
   return recipe_hashes.filter(recipe_hash => {
-    const ingredients = get_recipe(recipe_hash).ingredients;
-    for (let ingredient of ingredients) {
-      if (!ingredient.aisle) continue;  // empty aisle info, do nothing
-      const aisles = ingredient.aisle.split(';');  // split to get many aisles since a product can be in multiple
-      for (let aisle of aisles)
-        if (aisles_to_avoid.has(aisle)) return false;
-    }
+    const recipe_tags = new Set(get_recipe(recipe_hash).intolerances);
+    for (let intolerace of intolerances)
+      if (!recipe_tags.has(intolerace)) return false;
     return true;  // otherwise, include
   });
 }
@@ -527,7 +458,7 @@ export function filter_intolerance(recipe_hashes, intolerances) {
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Sat Dec 04 2021 17:02:52 GMT+0000 (Coordinated Universal Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Sat Dec 04 2021 19:27:16 GMT+0000 (Coordinated Universal Time)
 </footer>
 
 <script> prettyPrint(); </script>
