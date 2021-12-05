@@ -32,12 +32,14 @@ import * as backend from './backend.js';
 
 window.addEventListener('DOMContentLoaded', init);
 
+let current_recipes = [];
+
 async function init() {
   defaultPreference();
-  readPreference();
 
   bindSearchBar();
   bindSearchButton();
+  bindCheckboxes();
 }
 
 /**
@@ -77,6 +79,26 @@ function bindSearchButton() {
   //once the button got clicked, request the data from api and then output the result
   let button = document.querySelector('#search-button');
   button.addEventListener('click', hitSearch);
+  // alternatively, enter key also trigger a search
+  const input_field = document.getElementById('search-field');
+  input_field.addEventListener('keyup', e => {
+    if (e.key === 'Enter') hitSearch();  // enter key pressed
+  });
+}
+
+/**
+ * displays the current recipes with filters applied
+ */
+function displayCards() {
+  let recipe_list = document.querySelector('.recipes__wrapper');
+  recipe_list.innerHTML = '';  // clear old recipe cards
+  const recipe_hashes = backend.filter_intolerance(current_recipes, readPreference());
+  for(let recipe_hash of recipe_hashes) {
+    let recipeCard = document.createElement('recipe-card');
+    recipeCard.data = backend.get_recipe(recipe_hash);
+    document.querySelector('.recipes__wrapper').appendChild(recipeCard);
+  }
+  configureRecipeCards();
 }
 
 /**
@@ -84,19 +106,11 @@ function bindSearchButton() {
  */
 function hitSearch() {
   clearDropdowns();  // remove all suggestions
-  let recipe_list = document.querySelector('.recipes__wrapper');
-  recipe_list.innerHTML = '';  // clear old recipe cards
-  let list = readPreference();
+  
   let recipe_name = document.querySelector('#search-field').value;
-  backend.search_recipe(recipe_name, true, 10, list).then(data => {
-    recipe_list.innerHTML='';
-    for(let i = 0; i &lt; data.length; i++){
-      let recipeCard = document.createElement('recipe-card');
-      recipeCard.data = backend.get_recipe(data[i]);
-      document.querySelector('.recipes__wrapper').appendChild(recipeCard);
-    }
-    configureRecipeCards();
-  });
+  backend.search_recipe(recipe_name, true)
+    .then(data => current_recipes = data)
+    .then(displayCards);
 
   // USE FOR TESTING PURPOSES – to not overwhelm API
   // let recipe = backend.get_recipe('Apple Pie Pancakes$5316512375443084');
@@ -115,7 +129,6 @@ function clearDropdowns() {
   let dropdown_length = suggest_dropdowns.length;
   while (dropdown_length --> 0) 
     search_bar.removeChild(suggest_dropdowns[dropdown_length]);
-  
 }
 
 /**
@@ -129,6 +142,18 @@ function configureRecipeCards() {
       window.location.assign('recipe-detail.html');
     });
   });
+}
+
+/**
+ * bind displayCards function to the event of toggling checkboxes
+ */
+function bindCheckboxes() {
+  const leftElmt = document.querySelector('.left');
+  const leftCkbox = leftElmt.getElementsByClassName('container');
+  for (let checkbox of leftCkbox) checkbox.addEventListener('change', displayCards)
+  const rightElmt = document.querySelector('.right');
+  const rightCkbox = rightElmt.getElementsByClassName('container');
+  for (let checkbox of rightCkbox) checkbox.addEventListener('change', displayCards);
 }
 
 /**
@@ -200,13 +225,13 @@ function defaultPreference(){
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-backend.html">backend</a></li><li><a href="module-index.html">index</a></li><li><a href="module-recipe-add.html">recipe-add</a></li><li><a href="module-recipe-data.html">recipe-data</a></li><li><a href="module-recipe-detail.html">recipe-detail</a></li></ul><h3>Global</h3><ul><li><a href="global.html#add">add</a></li><li><a href="global.html#bindSearchBar">bindSearchBar</a></li><li><a href="global.html#bindSearchButton">bindSearchButton</a></li><li><a href="global.html#clearDropdowns">clearDropdowns</a></li><li><a href="global.html#configureRecipeCards">configureRecipeCards</a></li><li><a href="global.html#defaultPreference">defaultPreference</a></li><li><a href="global.html#hitSearch">hitSearch</a></li><li><a href="global.html#readPreference">readPreference</a></li><li><a href="global.html#registerCheckboxes">registerCheckboxes</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-backend.html">backend</a></li><li><a href="module-index.html">index</a></li><li><a href="module-recipe-add.html">recipe-add</a></li><li><a href="module-recipe-data.html">recipe-data</a></li><li><a href="module-recipe-detail.html">recipe-detail</a></li></ul><h3>Global</h3><ul><li><a href="global.html#add">add</a></li><li><a href="global.html#bindCheckboxes">bindCheckboxes</a></li><li><a href="global.html#bindSearchBar">bindSearchBar</a></li><li><a href="global.html#bindSearchButton">bindSearchButton</a></li><li><a href="global.html#clearDropdowns">clearDropdowns</a></li><li><a href="global.html#configureRecipeCards">configureRecipeCards</a></li><li><a href="global.html#defaultPreference">defaultPreference</a></li><li><a href="global.html#displayCards">displayCards</a></li><li><a href="global.html#hitSearch">hitSearch</a></li><li><a href="global.html#readPreference">readPreference</a></li><li><a href="global.html#registerCheckboxes">registerCheckboxes</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Sun Dec 05 2021 02:16:46 GMT+0000 (Coordinated Universal Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Sun Dec 05 2021 02:39:07 GMT+0000 (Coordinated Universal Time)
 </footer>
 
 <script> prettyPrint(); </script>
