@@ -3,12 +3,12 @@
  */
  describe('recipe-searchPage load test', () => {
   beforeAll(async () => {
-    await page.goto('http://cse110-group30-affd4.web.app/recipe-search.html');
+    await page.goto('http://localhost:5500/source/recipe-search.html');
     const begin_button = await page.$('.save');
     if (begin_button) {
       await begin_button.click();
       await page.waitForNavigation();
-      await page.goto('http://cse110-group30-affd4.web.app/recipe-search.html');
+      await page.goto('http://localhost:5500/source/recipe-search.html');
     }
   });
 

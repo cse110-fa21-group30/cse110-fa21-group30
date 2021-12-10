@@ -25,7 +25,8 @@ function bindSearchBar() {
   const input_field = document.getElementById('search-field');
   input_field.addEventListener('input', function() {
     const input = this.value;
-    backend.search_suggest(input).then(suggestions => {
+    backend.search_suggest(input, 10, 3).then(suggestions => {
+    // backend.search_suggest(input).then(suggestions => {
       clearDropdowns();
       // rebuild
       const search_bar = document.querySelector('.search-bar');
@@ -84,6 +85,7 @@ function hitSearch() {
   clearDropdowns();  // remove all suggestions
   
   let recipe_name = document.querySelector('#search-field').value;
+  // backend.search_recipe(recipe_name, false)
   backend.search_recipe(recipe_name, true)
     .then(data => current_recipes = data)
     .then(displayCards);
